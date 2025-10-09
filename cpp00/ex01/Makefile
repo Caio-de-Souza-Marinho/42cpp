@@ -1,9 +1,10 @@
-NAME	= ezphonebook
+NAME	= phonebook
 CC	= c++
 FLAGS	= -Wall -Wextra -Werror -std=c++98
 
 SRC	= ./main.cpp \
-	  ./Contact.cpp
+	  ./Contact.cpp \
+	  ./PhoneBook.cpp
 
 OBJ	= ${SRC:.cpp=.o}
 
