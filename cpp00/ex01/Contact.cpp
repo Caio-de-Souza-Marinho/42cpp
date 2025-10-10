@@ -15,9 +15,10 @@
 #include <iostream>
 #include "Contact.hpp"
 
-bool		isValidName(std::string input);
-std::string	trim(std::string str);
-std::string	capitalize(std::string str);
+static bool		isValidName(std::string input);
+static std::string	trim(std::string str);
+static std::string	capitalize(std::string str);
+static bool		isValidPhone(std::string input);
 
 void	Contact::setFirstName()
 {
@@ -58,6 +59,7 @@ void	Contact::setLastName()
 			input = trim(input);
 			if (isValidName(input))
 			{
+				input = capitalize(input);
 				_lastName = input;
 				break;
 			}
@@ -81,6 +83,7 @@ void	Contact::setNickname()
 			input = trim(input);
 			if (isValidName(input))
 			{
+				input = capitalize(input);
 				_nickname= input;
 				break;
 			}
@@ -102,8 +105,11 @@ void	Contact::setPhoneNumber()
 		else
 		{
 			input = trim(input);
-			_phoneNumber = input;
-			break;
+			if (isValidPhone(input))
+			{
+				_phoneNumber = input;
+				break;
+			}
 		}
 	}
 	while (true);
@@ -173,7 +179,7 @@ void	Contact::displayFullContact()
 	std::cout << "Darkest secret: " + _darkestSecret<< std::endl;
 }
 
-bool	isValidName(std::string input)
+static bool	isValidName(std::string input)
 {
 	if (input.length() < 2)
 	{
@@ -193,12 +199,10 @@ bool	isValidName(std::string input)
 			return (false);
 		}
 	}
-	// no repeated spaces inside
-	capitalize(input); 
 	return (true);
 }
 
-std::string	trim(std::string str)
+static std::string	trim(std::string str)
 {
 	size_t	start = str.find_first_not_of(' ');
 	size_t	end = str.find_last_not_of(' ');
@@ -209,7 +213,7 @@ std::string	trim(std::string str)
 	return (str);
 }
 
-std::string	capitalize(std::string str)
+static std::string	capitalize(std::string str)
 {
 	if (isalpha(str[0]))
 		str[0] = std::toupper(static_cast<unsigned char>(str[0]));
@@ -219,4 +223,27 @@ std::string	capitalize(std::string str)
 			str[i] = std::tolower(static_cast<unsigned char>(str[i]));
 	}
 	return (str);
+}
+
+static bool	isValidPhone(std::string input)
+{
+	if (input.length() < 3)
+	{
+		std::cout << "Phone number must be at least 3 digits long." << std::endl;
+		return (false);
+	}
+	if (input.length() > 50)
+	{
+		std::cout << "Phone number cannot exceed 20 digits." << std::endl;
+		return (false);
+	}
+	for (size_t i = 0; i < input.length(); i++)
+	{
+		if (!isdigit(input[i]) && input[i] != '-' && input[i] != '+' && input[i] != ' ')
+		{
+			std::cout << "Phone number can only contain digits, spaces or '+'/'-' symbols." << std::endl;
+			return (false);
+		}
+	}
+	return (true);
 }

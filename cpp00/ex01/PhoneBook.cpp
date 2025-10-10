@@ -17,8 +17,8 @@
 #include "PhoneBook.hpp"
 #include "Contact.hpp"
 
-void		printPhoneBookHeader();
-std::string	verifyText(std::string text);
+static void		printPhoneBookHeader();
+static std::string	verifyText(std::string text);
 
 PhoneBook::PhoneBook() : _index(0) {}
 
@@ -49,7 +49,9 @@ void	PhoneBook::searchContact()
 				return;
 			std::istringstream iss(input);
 			int	index;
-			if (!(iss >> index) || index < 0 || index >= 8)
+			iss >> index;
+			index -= 1;
+			if (index < 0 || index >= 8)
 			{
 				std::cout << "Invalid index. Try again." << std::endl;
 				continue;
@@ -70,7 +72,7 @@ void	PhoneBook::searchContact()
 	}
 }
 
-void	printPhoneBookHeader()
+static void	printPhoneBookHeader()
 {
 	const int		width = 10;
 	const std::string	separator = "|";
@@ -98,7 +100,7 @@ void	PhoneBook::printContactSummary(const Contact& contact, int i)
 	const std::string	botLine(totalWidth, '-');
 
 	std::cout << separator 
-	<< std::right << std::setw(width) << i << separator 
+	<< std::right << std::setw(width) << i+1 << separator 
 	<< std::right << std::setw(width) << verifyText(contact.getFirstName()) << separator 
 	<< std::right << std::setw(width) << verifyText(contact.getLastName()) << separator 
 	<< std::right << std::setw(width) << verifyText(contact.getNickname()) << separator 
@@ -107,7 +109,7 @@ void	PhoneBook::printContactSummary(const Contact& contact, int i)
 	std::cout << botLine << std::endl;
 }
 
-std::string	verifyText(std::string text)
+static std::string	verifyText(std::string text)
 {
 	std::string tmpText = text;
 
