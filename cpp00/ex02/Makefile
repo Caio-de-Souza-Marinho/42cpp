@@ -2,8 +2,8 @@ NAME	= tests
 CC	= c++
 FLAGS	= -Wall -Wextra -Werror -std=c++98
 
-SRC	= ./tests.cpp \
-	  ./Account.cpp
+SRC	= ./Account.cpp \
+	  ./main.cpp
 
 OBJ	= ${SRC:.cpp=.o}
 
@@ -24,6 +24,7 @@ fclean: clean
 re: fclean all
 
 run: re
+	clear
 	./${NAME}
 
 .PHONY: all clean fclean re run
