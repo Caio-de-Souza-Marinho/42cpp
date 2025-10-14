@@ -3,7 +3,7 @@ CC	= c++
 FLAGS	= -Wall -Wextra -Werror -std=c++98
 
 SRC	= ./Account.cpp \
-	  ./main.cpp
+	  ./tests.cpp
 
 OBJ	= ${SRC:.cpp=.o}
 
