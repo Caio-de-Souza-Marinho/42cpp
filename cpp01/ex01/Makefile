@@ -1,15 +1,14 @@
-NAME	= brainz
+NAME	= morebrainz
 CC	= c++
 FLAGS	= -Wall -Wextra -Werror -std=c++98
 
 SRC	= ./main.cpp \
 	  ./Zombie.cpp \
-	  ./newZombie.cpp \
-	  ./randomChump.cpp \
+	  ./zombieHorde.cpp
 
 OBJ	= ${SRC:.cpp=.o}
 
-all: ${NAME}
+all:	${NAME}
 
 ${NAME}: ${OBJ}
 	${CC} ${FLAGS} -o ${NAME} ${OBJ}
