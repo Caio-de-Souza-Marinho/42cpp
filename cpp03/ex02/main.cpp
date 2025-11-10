@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ScavTrap.hpp                                       :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/10 01:47:04 by caide-so          #+#    #+#             */
-/*   Updated: 2025/11/10 10:03:21 by caide-so         ###   ########.fr       */
+/*   Created: 2025/11/07 18:42:56 by caide-so          #+#    #+#             */
+/*   Updated: 2025/11/10 10:10:54 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SCAVTRAP_HPP
-#define SCAVTRAP_HPP
+#include "FragTrap.hpp"
 
-#include "ClapTrap.hpp"
-
-class	ScavTrap : public ClapTrap
+int	main(void)
 {
-	public:
-		ScavTrap();
-		ScavTrap(std::string name);
-		ScavTrap(const ScavTrap &other);
-		ScavTrap &operator=(const ScavTrap &other);
-		~ScavTrap();
-
-		void	guardGate();
-		void	attack(const std::string& target);
-};
-
-#endif
+	FragTrap	a("Test");
+	a.attack("Bot");
+	a.highFivesGuys();
+	return (0);
+}
