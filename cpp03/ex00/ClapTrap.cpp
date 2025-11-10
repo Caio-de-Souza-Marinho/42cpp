@@ -46,3 +46,39 @@ ClapTrap::~ClapTrap()
 {
 	std::cout << "Destructor called" << std::endl;
 }
+
+void	ClapTrap::attack(const std::string& target)
+{
+	if (_energyPoints <= 0 || _hitPoints <= 0)
+	{
+		std::cout << "ClapTrap " << _name << " can't attack." << std::endl;
+		return ;
+	}
+	_energyPoints--;
+	std::cout << "ClapTrap " << _name << " attacks " << target << " causing " << _attackDamage << " points of damage!" << std::endl;
+}
+
+void	ClapTrap::takeDamage(unsigned int amount)
+{
+	if (_hitPoints <= 0)
+	{
+		std::cout << "ClapTrap " << _name << " is already destroyed!" << std::endl;
+		return ;
+	}
+	_hitPoints -= amount;
+	if (_hitPoints < 0)
+		_hitPoints = 0;
+	std::cout << "ClapTrap " << _name << " takes " << amount << " points of damage!" << std::endl;
+}
+
+void	ClapTrap::beRepaired(unsigned int amount)
+{
+	if (_energyPoints <= 0 || _hitPoints <= 0)
+	{
+		std::cout << "ClapTrap " << _name << " can't repaired." << std::endl;
+		return ;
+	}
+	_energyPoints--;
+	_hitPoints += amount;
+	std::cout << "ClapTrap " << _name << " is repaired for " << amount << " hit points!" << std::endl;
+}
