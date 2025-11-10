@@ -14,8 +14,10 @@
 
 int	main(void)
 {
-	ScavTrap	a("Test");
-	a.attack("Bot");
-	a.guardGate();
+	ScavTrap	st("SCAV-TRAP");
+	st.attack("Bandit");
+	st.takeDamage(30);
+	st.beRepaired(20);
+	st.guardGate();
 	return (0);
 }

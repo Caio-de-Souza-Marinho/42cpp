@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   FragTrap.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/07 18:42:56 by caide-so          #+#    #+#             */
-/*   Updated: 2025/11/10 10:10:54 by caide-so         ###   ########.fr       */
+/*   Created: 2025/11/10 10:03:08 by caide-so          #+#    #+#             */
+/*   Updated: 2025/11/10 10:19:03 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "FragTrap.hpp"
+#ifndef FRAGTRAP_HPP
+#define FRAGTRAP_HPP
 
-int	main(void)
+#include "ClapTrap.hpp"
+
+class	FragTrap : virtual public ClapTrap
 {
-	FragTrap	ft("FRAG-TRAP");
-	ft.attack("Robot");
-	ft.takeDamage(50);
-	ft.beRepaired(25);
-	ft.highFivesGuys();
-	return (0);
-}
+	public:
+		FragTrap();
+		FragTrap(std::string name);
+		FragTrap(const FragTrap &other);
+		FragTrap &operator=(const FragTrap &other);
+		~FragTrap();
+
+		void	highFivesGuys();
+};
+
+#endif
