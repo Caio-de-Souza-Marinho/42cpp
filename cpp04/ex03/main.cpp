@@ -1,17 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 19:36:43 by caide-so          #+#    #+#             */
-/*   Updated: 2025/11/12 01:50:50 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/11/12 20:21:27 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "AMateria.hpp"
 #include "ICharacter.hpp"
+#include "Character.hpp"
+#include "Ice.hpp"
+#include "Cure.hpp"
 
 int	main()
 {
