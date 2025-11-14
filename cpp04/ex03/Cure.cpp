@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 00:46:29 by caide-so          #+#    #+#             */
-/*   Updated: 2025/11/12 20:12:34 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/11/14 11:18:13 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ Cure::Cure() : AMateria("cure")
 	std::cout << "Cure default constructor called." << std::endl;
 }
 
-Cure::Cure(const Cure &other)
+Cure::Cure(const Cure &other) : AMateria("cure")
 {
 	std::cout << "Cure copy constructor called." << std::endl;
 	*this = other;

@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 00:46:29 by caide-so          #+#    #+#             */
-/*   Updated: 2025/11/12 01:48:28 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/11/14 11:20:53 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,9 @@ AMateria::~AMateria()
 std::string const& 	AMateria::getType() const
 {
 	return (_type);
+}
+
+void	AMateria::use(ICharacter& target)
+{
+	(void)target;
 }

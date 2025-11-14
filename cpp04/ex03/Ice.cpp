@@ -6,7 +6,7 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 00:46:29 by caide-so          #+#    #+#             */
-/*   Updated: 2025/11/12 20:12:22 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/11/14 11:17:59 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ Ice::Ice() : AMateria("ice")
 	std::cout << "Ice default constructor called." << std::endl;
 }
 
-Ice::Ice(const Ice &other)
+Ice::Ice(const Ice &other) : AMateria("ice")
 {
 	std::cout << "Ice copy constructor called." << std::endl;
 	*this = other;
