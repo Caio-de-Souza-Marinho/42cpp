@@ -5,7 +5,7 @@ FLAGS	= -Wall -Wextra -Werror -std=c++98
 SRC	= ./main.cpp \
 	  ./Bureaucrat.cpp
 
-OBJ	= ${SRC}:.cpp=.o
+OBJ	= ${SRC:.cpp=.o}
 
 all: ${NAME}
 

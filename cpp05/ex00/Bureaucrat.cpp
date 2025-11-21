@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
+#include <iostream>
 
 Bureaucrat::Bureaucrat() : _name("Default"), _grade(150) {}
 
@@ -56,4 +57,20 @@ const std::string	Bureaucrat::getName() const
 int	Bureaucrat::getGrade() const
 {
 	return (_grade);
+}
+
+const char* Bureaucrat::GradeTooHighException::what() const throw()
+{
+	return ("Bureaucrat grade is too high.");
+}
+
+const char* Bureaucrat::GradeTooLowException::what() const throw()
+{
+	return ("Bureaucrat grade is too low.");
+}
+
+std::ostream &operator<<(std::ostream &out, const Bureaucrat &value)
+{
+	out << value.getName() << ", bureaucrat grade " << value.getGrade() << std::endl;
+	return (out);
 }
