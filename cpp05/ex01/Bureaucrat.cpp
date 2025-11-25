@@ -6,12 +6,14 @@
 /*   By: caide-so <caide-so@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 21:14:21 by caide-so          #+#    #+#             */
-/*   Updated: 2025/11/21 16:31:03 by caide-so         ###   ########.fr       */
+/*   Updated: 2025/11/21 16:35:55 by caide-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
+#include <exception>
 #include <iostream>
+#include "Form.hpp"
 
 Bureaucrat::Bureaucrat() : _name("Default"), _grade(150) {}
 
@@ -35,6 +37,16 @@ Bureaucrat::Bureaucrat(std::string name, int grade) : _name(name)
 	_grade = grade;
 }
 
+const std::string	&Bureaucrat::getName() const
+{
+	return (_name);
+}
+
+int	Bureaucrat::getGrade() const
+{
+	return (_grade);
+}
+
 void	Bureaucrat::incrementGrade()
 {
 	if (_grade == 1)
@@ -49,14 +61,20 @@ void	Bureaucrat::decrementGrade()
 	_grade++;
 }
 
-const std::string	&Bureaucrat::getName() const
+void	Bureaucrat::signForm(Form &form) const
 {
-	return (_name);
-}
-
-int	Bureaucrat::getGrade() const
-{
-	return (_grade);
+	try
+	{
+		form.beSigned(*this);
+		std::cout << "bureaucrat " << this->getName()
+			<< " signed " << form.getName() << " form." << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		std::cout << "bureaucrat " << this->getName()
+			<< " couldn't sign " << form.getName() << " form "
+			<< "because " << e.what() << std::endl;
+	}
 }
 
 const char* Bureaucrat::GradeTooHighException::what() const throw()
