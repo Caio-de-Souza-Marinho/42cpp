@@ -39,6 +39,28 @@ static void		convertFromFloat(float value);
 static void		convertFromDouble(double value);
 static void		convertSpecial(std::string const &literal);
 
+ScalarConverter::ScalarConverter()
+{
+	return ;
+}
+
+ScalarConverter::~ScalarConverter()
+{
+	return ;
+}
+
+ScalarConverter::ScalarConverter(const ScalarConverter &other)
+{
+	(void)other;
+	return ;
+}
+
+ScalarConverter &ScalarConverter::operator=(const ScalarConverter &other)
+{
+	(void)other;
+	return (*this);
+}
+
 void	ScalarConverter::convert(std::string const &literal)
 {
 	LiteralType	type;
