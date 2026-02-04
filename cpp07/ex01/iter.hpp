@@ -14,7 +14,7 @@
 #define ITER_HPP
 
 template <typename T>
-void	iter(T* arr, const int size, void (*f)(const T&))
+void	iter(const T* arr, const int size, void (*f)(const T&))
 {
 	for (int i = 0; i < size; i++)
       		f(arr[i]);
