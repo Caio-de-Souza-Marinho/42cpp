@@ -32,15 +32,16 @@ int	main()
 		numbers.push_back(value);
 	}
 
-	std::cout << "Span content\n";
+	std::cout << "\n==================== Span content ====================\n";
 	for (size_t i = 0; i < numbers.size(); i++)
 		std::cout << numbers[i] << " ";
-	std::cout << std::endl;
+	std::cout << "\n==================== ------------ ====================\n";
 
 	sp.addNumbers(numbers.begin(), numbers.end());
 
-	std::cout << sp.shortestSpan() << std::endl;
-	std::cout << sp.longestSpan() << std::endl;
+	std::cout << std::endl;
+	std::cout << "Shortest span: " << sp.shortestSpan() << std::endl;
+	std::cout << "Longest span: " << sp.longestSpan() << std::endl;
 
 	return (0);
 }
