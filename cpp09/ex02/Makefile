@@ -2,6 +2,8 @@ NAME	= PmergeMe
 CC	= c++
 FLAGS	= -Wall -Wextra -Werror -std=c++98
 
+TEST_INPUT = `shuf -i 1-100 -n 10 | tr "\n" " "`
+
 SRC	= ./main.cpp \
 	  ./PmergeMe.cpp
 
@@ -24,6 +26,6 @@ fclean: clean
 re: fclean all
 
 run: re
-	./${NAME}
+	./${NAME} ${TEST_INPUT}
 
 .PHONY: all clean fclean re run

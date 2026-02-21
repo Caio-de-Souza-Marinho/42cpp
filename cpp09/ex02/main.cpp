@@ -12,19 +12,25 @@
 
 #include "PmergeMe.hpp"
 #include <iostream>
+#include <stdexcept>
 
 int	main(int argc, char **argv)
 {
-	if (argc < 2)
+	try
 	{
-		std::cout << "Error\n";
+		if (argc < 2)
+			throw std::runtime_error("Error");
+
+		PmergeMe	p;
+
+		p.parseInput(argc, argv);
+		p.process();
+	}
+	catch (const std::exception &e)
+	{
+		std::cout << "Error" << std::endl;
 		return (1);
 	}
-
-	PmergeMe	p;
-
-	p.parseInput(argc, argv);
-	p.process();
 
 	return (0);
 }

@@ -13,9 +13,10 @@
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
+#include <vector>
 #include <deque>
 #include <string>
-#include <vector>
+#include <ctime>
 
 class	PmergeMe
 {
@@ -25,17 +26,23 @@ class	PmergeMe
 
 		void	sortVector();
 		void	mergeInsertSortVector(std::vector<int> &vector);
-		void	insertPendingVector(std::vector<int> &mainChain, std::vector<int> &pending);
-		void	binaryInsertVector(std::vector<int> &vector, int value);
+		std::vector<size_t>	generateJacobsthalOrderVector(size_t size);
+		void	binaryInsertVector(std::vector<int> &vector, int value, size_t upperBound);
 
-		void	sorteDeque();
+		void	sortDeque();
 		void	mergeInsertSortDeque(std::deque<int> &deque);
-		void	insertPendingDeque(std::deque<int> &mainChain, std::deque<int> &pending);
-		void	binaryInsertDeque(std::deque<int> &deque, int value);
+		std::deque<size_t>	generateJacobsthalOrderDeque(size_t size);
+		void	binaryInsertDeque(std::deque<int> &deque, int value, size_t upperBound);
 
+		// parse input helpers
 		bool	isValidNumber(const std::string &token) const;
 		long	convertToLong(const std::string &token) const;
 		bool	isDuplicate(int value) const;
+
+		// process helpers
+		void	printSequence(const std::string &label) const;
+		void	printTimeVector(clock_t startVector, clock_t endVector);
+		void	printTimeDeque(clock_t startDeque, clock_t endDeque);
 
 	public:
 		PmergeMe();
