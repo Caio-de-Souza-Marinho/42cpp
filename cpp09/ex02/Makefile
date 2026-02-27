@@ -2,7 +2,7 @@ NAME	= PmergeMe
 CC	= c++
 FLAGS	= -Wall -Wextra -Werror -std=c++98
 
-TEST_INPUT = `shuf -i 1-100 -n 10 | tr "\n" " "`
+TEST_INPUT = `shuf -i 1-1000 -n 100000 | tr "\n" " "`
 
 SRC	= ./main.cpp \
 	  ./PmergeMe.cpp

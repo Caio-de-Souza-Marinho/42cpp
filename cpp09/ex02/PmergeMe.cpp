@@ -37,6 +37,8 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 
 PmergeMe::~PmergeMe() {}
 
+// --------- Input parsing -----------------------------------------------------------------
+
 void	PmergeMe::parseInput(int argc, char **argv)
 {
 	if (argc < 2)
@@ -98,6 +100,241 @@ bool	PmergeMe::isDuplicate(int value) const
 	return (false);
 }
 
+// --------- Jabobsthal insertion order -----------------------------------------------------------------
+
+static std::vector<size_t>	buildInsertionOrder(size_t size)
+{
+	std::vector<size_t>	order;
+	if (size == 0)
+		return (order);
+
+	order.push_back(0);
+	if (size == 1)
+		return (order);
+
+	std::vector<size_t>	jacob;
+	jacob.push_back(1);
+	jacob.push_back(3);
+
+	while (jacob.back() < size)
+		jacob.push_back(jacob[jacob.size() - 1] + 2 * jacob[jacob.size() - 2]);
+
+	size_t	prev = 1;
+	for (size_t i = 1; i < jacob.size(); i++)
+	{
+		size_t	curr = jacob[i];
+		if (curr > size)
+			curr = size;
+		if (curr <= prev)
+			continue ;
+
+		for (size_t j = curr; j > prev; j--)
+			order.push_back(j - 1);
+		prev = curr;
+		if (prev >= size)
+			break ;
+	}
+
+	return (order);
+}
+
+
+// --------- Sort Vector -----------------------------------------------------------------
+
+void	PmergeMe::sortVector()
+{
+	mergeInsertSortVector(_vector);
+}
+
+void	PmergeMe::mergeInsertSortVector(std::vector<int> &vector)
+{
+	if (vector.size() <= 1)
+		return ;
+
+	std::vector<int>	mainChain;
+	std::vector<int>	pending;
+
+	// Step 1: Create pairs
+	for (size_t i = 0; i + 1 < vector.size(); i += 2)
+	{
+		int	first = vector[i];
+		int	second = vector[i + 1];
+
+		if (first > second)
+			std::swap(first, second);
+
+		pending.push_back(first);
+		mainChain.push_back(second);
+	}
+
+	bool	hasStraggler = (vector.size() % 2 != 0);
+	int	straggler = hasStraggler ? vector.back() : 0;
+
+	std::vector<int>	origMainChain = mainChain;
+
+	// Step 2: Recursively sort main chain
+	mergeInsertSortVector(mainChain);
+
+	std::vector<int>	origMainChainCopy = origMainChain;
+	std::vector<int>	pendingAligned;
+
+	for (size_t i = 0; i < mainChain.size(); i++)
+	{
+		for (size_t j = 0; j < origMainChain.size(); j++)
+		{
+			if (origMainChainCopy[j] == mainChain[i])
+			{
+				pendingAligned.push_back(pending[j]);
+				origMainChainCopy[j] = -1;
+				break;
+			}
+		}
+	}
+	pending = pendingAligned;
+
+	if (hasStraggler)
+		pending.push_back(straggler);
+
+	std::vector<size_t>	order = buildInsertionOrder(pending.size());
+
+	size_t	inserted = 0;
+	for (size_t j = 0; j < order.size(); j++)
+	{
+		size_t	idx = order[j];
+		size_t	upperBound;
+
+		if (hasStraggler && idx == pending.size() - 1)
+			upperBound = mainChain.size();
+		else
+			upperBound = idx + inserted + 1;
+
+		if (upperBound > mainChain.size())
+			upperBound = mainChain.size();
+
+		binaryInsertVector(mainChain, pending[idx], upperBound);
+		inserted++;
+	}
+
+	vector = mainChain;
+}
+
+void	PmergeMe::binaryInsertVector(std::vector<int> &vector, int value, size_t upperBound)
+{
+	size_t	left = 0;
+	size_t	right = upperBound;
+
+	while (left < right)
+	{
+		size_t	mid = left + (right - left) / 2;
+
+		if (vector[mid] < value)
+			left = mid + 1;
+		else
+			right = mid;
+	}
+
+	vector.insert(vector.begin() + left, value);
+}
+
+// --------- Sort Deque -----------------------------------------------------------------
+
+void	PmergeMe::sortDeque()
+{
+	mergeInsertSortDeque(_deque);
+}
+
+void	PmergeMe::mergeInsertSortDeque(std::deque<int> &deque)
+{
+	if (deque.size() <= 1)
+		return ;
+
+	std::deque<int>	mainChain;
+	std::deque<int>	pending;
+
+	// Step 1: Create pairs
+	for (size_t i = 0; i + 1 < deque.size(); i += 2)
+	{
+		int	first = deque[i];
+		int	second = deque[i + 1];
+
+		if (first > second)
+			std::swap(first, second);
+
+		pending.push_back(first);
+		mainChain.push_back(second);
+	}
+
+	bool	hasStraggler = (deque.size() % 2 != 0);
+	int	straggler = hasStraggler ? deque.back() : 0;
+
+	std::deque<int>	origMainChain = mainChain;
+
+	// Step 2: Recursively sort main chain
+	mergeInsertSortDeque(mainChain);
+
+	std::deque<int>	origMainChainCopy = origMainChain;
+	std::deque<int>	pendingAligned;
+
+	for (size_t i = 0; i < mainChain.size(); i++)
+	{
+		for (size_t j = 0; j < origMainChain.size(); j++)
+		{
+			if (origMainChainCopy[j] == mainChain[i])
+			{
+				pendingAligned.push_back(pending[j]);
+				origMainChainCopy[j] = -1;
+				break;
+			}
+		}
+	}
+	pending = pendingAligned;
+
+	if (hasStraggler)
+		pending.push_back(straggler);
+
+	std::vector<size_t>	order = buildInsertionOrder(pending.size());
+
+	size_t	inserted = 0;
+	for (size_t j = 0; j < order.size(); j++)
+	{
+		size_t	idx = order[j];
+		size_t	upperBound;
+
+		if (hasStraggler && idx == pending.size() - 1)
+			upperBound = mainChain.size();
+		else
+			upperBound = idx + inserted + 1;
+
+		if (upperBound > mainChain.size())
+			upperBound = mainChain.size();
+
+		binaryInsertDeque(mainChain, pending[idx], upperBound);
+		inserted++;
+	}
+
+	deque = mainChain;
+}
+
+void	PmergeMe::binaryInsertDeque(std::deque<int> &deque, int value, size_t upperBound)
+{
+	size_t	left = 0;
+	size_t	right = upperBound;
+
+	while (left < right)
+	{
+		size_t	mid = left + (right - left) / 2;
+
+		if (deque[mid] < value)
+			left = mid + 1;
+		else
+			right = mid;
+	}
+
+	deque.insert(deque.begin() + left, value);
+}
+
+// --------- Output --------------------------------------------------------------------------
+
 void	PmergeMe::process()
 {
 	printSequence("Before");
@@ -126,216 +363,6 @@ void	PmergeMe::printSequence(const std::string &label) const
 	std::cout << std::endl;
 }
 
-void	PmergeMe::sortVector()
-{
-	mergeInsertSortVector(_vector);
-}
-
-void	PmergeMe::mergeInsertSortVector(std::vector<int> &vector)
-{
-	if (vector.size() <= 1)
-		return ;
-
-	std::vector<int>	mainChain;
-	std::vector<int>	pending;
-
-	// Step 1: Create pairs
-	size_t	i = 0;
-	while (i + 1 < vector.size())
-	{
-		int	first = vector[i];
-		int	second = vector[i + 1];
-
-		if (first > second)
-			std::swap(first, second);
-
-		pending.push_back(first);
-		mainChain.push_back(second);
-
-		i += 2;
-	}
-
-	// Odd element goes to pending
-	if (vector.size() % 2 != 0)
-		pending.push_back(vector.back());
-
-	// Step 2: Recursively sort main chain
-	mergeInsertSortVector(mainChain);
-
-	// Step 3: Generate Jacobsthal insertion order
-	std::vector<size_t>	order = generateJacobsthalOrderVector(pending.size());
-
-	// Step 4: Insert pending elements in Jacobsthal order
-	for (size_t j = 0; j < order.size(); j++)
-	{
-		size_t	idx = order[j];
-
-		// Restrict binary search range
-		size_t	upperBound = idx + j;
-
-		if (upperBound > mainChain.size())
-			upperBound = mainChain.size();
-
-		binaryInsertVector(mainChain, pending[idx], upperBound);
-	}
-
-	vector = mainChain;
-}
-
-std::vector<size_t>	PmergeMe::generateJacobsthalOrderVector(size_t size)
-{
-	std::vector<size_t> order;
-
-	if (size == 0)
-		return order;
-
-	std::vector<size_t> jacob;
-	jacob.push_back(0);
-	jacob.push_back(1);
-
-	while (jacob.back() < size)
-		jacob.push_back(jacob[jacob.size() - 1] +
-		  2 * jacob[jacob.size() - 2]);
-
-	size_t prev = 1;
-
-	for (size_t i = 2; i < jacob.size(); i++)
-	{
-		size_t curr = jacob[i];
-		if (curr > size)
-			curr = size;
-
-		for (size_t j = curr; j > prev; j--)
-			order.push_back(j - 1);
-
-		prev = curr;
-	}
-
-	return order;
-}
-
-void	PmergeMe::binaryInsertVector(std::vector<int> &vector, int value, size_t upperBound)
-{
-	size_t	left = 0;
-	size_t	right = upperBound;
-
-	while (left < right)
-	{
-		size_t	mid = left + (right - left) / 2;
-
-		if (vector[mid] < value)
-			left = mid + 1;
-		else
-			right = mid;
-	}
-
-	vector.insert(vector.begin() + left, value);
-}
-
-void	PmergeMe::sortDeque()
-{
-	mergeInsertSortDeque(_deque);
-}
-
-void	PmergeMe::mergeInsertSortDeque(std::deque<int> &deque)
-{
-	if (deque.size() <= 1)
-		return ;
-
-	std::deque<int>	mainChain;
-	std::deque<int>	pending;
-
-	// Step 1: Create pairs
-	size_t	i = 0;
-	while (i + 1 < deque.size())
-	{
-		int	first = deque[i];
-		int	second = deque[i + 1];
-
-		if (first > second)
-			std::swap(first, second);
-
-		pending.push_back(first);
-		mainChain.push_back(second);
-
-		i += 2;
-	}
-
-	// Odd element
-	if (deque.size() % 2 != 0)
-		pending.push_back(deque.back());
-
-	// Step 2: Recursively sort main chain
-	mergeInsertSortDeque(mainChain);
-
-	// Step 3: Generate Jacobsthal insertion order
-	std::deque<size_t>	order = generateJacobsthalOrderDeque(pending.size());
-
-	// Step 4: Insert pending elements in Jacobsthal order
-	for (size_t j = 0; j < order.size(); j++)
-	{
-		size_t	idx = order[j];
-
-		// Restrict binary search range
-		size_t	upperBound = idx + j;
-
-		if (upperBound > mainChain.size())
-			upperBound = mainChain.size();
-
-		binaryInsertDeque(mainChain, pending[idx], upperBound);
-	}
-
-	deque = mainChain;
-}
-
-std::deque<size_t>	PmergeMe::generateJacobsthalOrderDeque(size_t size)
-{
-	std::deque<size_t>	order;
-	if (size == 0)
-		return (order);
-
-	std::deque<size_t>	jacob;
-	jacob.push_back(0);
-	jacob.push_back(1);
-
-	while (jacob.back() < size)
-		jacob.push_back(jacob[jacob.size() - 1] + 2 * jacob[jacob.size() - 2]);
-
-	size_t	inserted = 0;
-
-	for (size_t i = 1; i < jacob.size(); i++)
-	{
-		size_t	limit = jacob[i];
-		if (limit > size)
-			limit = size;
-
-		for (size_t j = limit ; j > inserted; j--)
-			order.push_back(j - 1);
-
-		inserted = limit;
-	}
-
-	return (order);
-}
-
-void	PmergeMe::binaryInsertDeque(std::deque<int> &deque, int value, size_t upperBound)
-{
-	size_t	left = 0;
-	size_t	right = upperBound;
-
-	while (left < right)
-	{
-		size_t	mid = left + (right - left) / 2;
-
-		if (deque[mid] < value)
-			left = mid + 1;
-		else
-			right = mid;
-	}
-
-	deque.insert(deque.begin() + left, value);
-}
-
 void	PmergeMe::printTimeVector(clock_t startVector, clock_t endVector)
 {
 	double	duration;
@@ -355,7 +382,7 @@ void	PmergeMe::printTimeDeque(clock_t startDeque, clock_t endDeque)
 {
 	double	duration;
 
-	duration = (double)(endDeque- startDeque) / CLOCKS_PER_SEC;
+	duration = (double)(endDeque - startDeque) / CLOCKS_PER_SEC;
 	duration *= 1000000;
 
 	std::cout << "Time to process a range of   " 

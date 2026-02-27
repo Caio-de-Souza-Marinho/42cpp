@@ -26,12 +26,10 @@ class	PmergeMe
 
 		void	sortVector();
 		void	mergeInsertSortVector(std::vector<int> &vector);
-		std::vector<size_t>	generateJacobsthalOrderVector(size_t size);
 		void	binaryInsertVector(std::vector<int> &vector, int value, size_t upperBound);
 
 		void	sortDeque();
 		void	mergeInsertSortDeque(std::deque<int> &deque);
-		std::deque<size_t>	generateJacobsthalOrderDeque(size_t size);
 		void	binaryInsertDeque(std::deque<int> &deque, int value, size_t upperBound);
 
 		// parse input helpers
